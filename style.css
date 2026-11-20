@@ -1,0 +1,101 @@
+:root {
+  --bg: #0a0a0f;
+  --card: #16161f;
+  --accent: #7c5cff;
+  --accent-glow: rgba(124, 92, 255, 0.4);
+  --text: #ffffff;
+  --text-secondary: #a0a0b0;
+  --success: #22c55e;
+  --border: #2a2a3a;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+#app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.logo { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; }
+.logo-icon {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--accent), #a78bfa);
+  border-radius: 10px;
+}
+.page { display: none; padding: 20px; flex: 1; padding-bottom: 90px; }
+.page.active { display: block; }
+.connected-card {
+  background: var(--card); border-radius: 16px; padding: 16px;
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 30px; border: 1px solid var(--border);
+}
+.device-info { display: flex; align-items: center; gap: 12px; }
+.status-dot.connected { width: 10px; height: 10px; border-radius: 50%; background: var(--success); box-shadow: 0 0 10px var(--success); }
+.voice-center { display: flex; flex-direction: column; align-items: center; margin: 40px 0; }
+.mic-button {
+  width: 140px; height: 140px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(124, 92, 255, 0.2), transparent 70%);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; position: relative;
+}
+.mic-button.listening { background: radial-gradient(circle, var(--accent-glow), transparent 70%); }
+.mic-icon { font-size: 48px; }
+.pulse-ring {
+  position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--accent); opacity: 0;
+}
+.mic-button.listening .pulse-ring { animation: pulse 1.5s infinite; }
+@keyframes pulse {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+.voice-status { margin-top: 20px; font-size: 18px; font-weight: 600; }
+.transcript { margin-top: 12px; color: var(--text-secondary); text-align: center; min-height: 40px; }
+.quick-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 30px 0; }
+.action-card {
+  background: var(--card); border-radius: 16px; padding: 16px 10px;
+  text-align: center; cursor: pointer; border: 1px solid var(--border);
+}
+.bottom-nav {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 480px; background: #111118;
+  border-top: 1px solid var(--border); display: flex; padding: 10px 0 20px;
+}
+.nav-btn {
+  flex: 1; background: none; border: none; color: var(--text-secondary);
+  cursor: pointer; font-size: 13px;
+}
+.nav-btn.active { color: var(--accent); }
+.agent-card, .feature-item {
+  background: var(--card); border-radius: 14px; padding: 16px; margin-bottom: 12px;
+  border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;
+}
+.switch { position: relative; display: inline-block; width: 48px; height: 26px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+  background: #333; transition: .3s; border-radius: 26px;
+}
+.slider:before {
+  position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px;
+  background: white; transition: .3s; border-radius: 50%;
+}
+input:checked + .slider { background: var(--accent); }
+input:checked + .slider:before { transform: translateX(22px); }
+.agent-desc { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+@media (min-width: 768px) {
+  #app { border-radius: 24px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); min-height: 90vh; margin: 20px auto; }
+}

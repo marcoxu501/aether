@@ -1,8 +1,8 @@
 let isListening = false;
 let recognition = null;
 let currentTranscript = "";
+let currentLang = localStorage.getItem('aether-lang') || 'zh-TW';
 
-// 初始化語音辨識
 function initSpeech() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
@@ -10,7 +10,7 @@ function initSpeech() {
     return;
   }
   recognition = new SpeechRecognition();
-  recognition.lang = 'zh-TW';
+  recognition.lang = currentLang;
   recognition.continuous = false;
   recognition.interimResults = true;
 
@@ -52,6 +52,15 @@ function initSpeech() {
   };
 }
 
+function changeLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('aether-lang', lang);
+  if (recognition) {
+    recognition.lang = lang;
+  }
+  showNotification(`語言已切換為：${lang}`);
+}
+
 function toggleListening() {
   if (!recognition) {
     alert("請使用支援語音辨識的瀏覽器（Chrome / Edge / Safari）");
@@ -62,6 +71,7 @@ function toggleListening() {
   } else {
     currentTranscript = "";
     document.getElementById('transcript').textContent = "";
+    recognition.lang = currentLang;
     recognition.start();
   }
 }
@@ -129,10 +139,10 @@ function createAgent() {
 
 function saveSettings() {
   const settings = {
-    typing: document.getElementById('feat-typing').checked,
-    control: document.getElementById('feat-control').checked,
-    email: document.getElementById('feat-email').checked,
-    agents: document.getElementById('feat-agents').checked
+    typing: document.getElementById('feat-typing')?.checked,
+    control: document.getElementById('feat-control')?.checked,
+    email: document.getElementById('feat-email')?.checked,
+    agents: document.getElementById('feat-agents')?.checked
   };
   localStorage.setItem('aether-settings', JSON.stringify(settings));
   showNotification("設定已儲存");
@@ -142,11 +152,13 @@ function loadSettings() {
   const saved = localStorage.getItem('aether-settings');
   if (saved) {
     const s = JSON.parse(saved);
-    document.getElementById('feat-typing').checked = s.typing;
-    document.getElementById('feat-control').checked = s.control;
-    document.getElementById('feat-email').checked = s.email;
-    document.getElementById('feat-agents').checked = s.agents;
+    if (document.getElementById('feat-typing')) document.getElementById('feat-typing').checked = s.typing;
+    if (document.getElementById('feat-control')) document.getElementById('feat-control').checked = s.control;
+    if (document.getElementById('feat-email')) document.getElementById('feat-email').checked = s.email;
+    if (document.getElementById('feat-agents')) document.getElementById('feat-agents').checked = s.agents;
   }
+  const langSelect = document.getElementById('langSelect');
+  if (langSelect) langSelect.value = currentLang;
 }
 
 function showNotification(msg) {
@@ -162,14 +174,6 @@ function showNotification(msg) {
   setTimeout(() => notif.remove(), 2500);
 }
 
-// PWA 安裝提示
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-});
-
-// 初始化
 window.onload = () => {
   initSpeech();
   loadSettings();

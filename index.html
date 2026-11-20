@@ -26,7 +26,7 @@
             <div class="device-icon">🎧</div>
             <div>
               <div class="device-name">Aether Earbuds Pro</div>
-              <div class="device-status">藍牙已連接</div>
+              <div class="device-status" data-i18n="connected">藍牙已連接</div>
             </div>
           </div>
           <div class="status-dot connected"></div>
@@ -36,47 +36,47 @@
             <div class="mic-icon">🎤</div>
             <div class="pulse-ring"></div>
           </div>
-          <div class="voice-status" id="voiceStatus">點擊開始說話</div>
+          <div class="voice-status" id="voiceStatus" data-i18n="tapToSpeak">點擊開始說話</div>
           <div class="transcript" id="transcript"></div>
         </div>
         <div class="quick-actions">
           <div class="action-card" onclick="executeQuickAction('email')">
             <div class="action-icon">✉️</div>
-            <div>Email</div>
-            <div class="action-desc">語音撰寫郵件</div>
+            <div data-i18n="email">Email</div>
+            <div class="action-desc" data-i18n="emailDesc">語音撰寫郵件</div>
           </div>
           <div class="action-card" onclick="executeQuickAction('typing')">
             <div class="action-icon">⌨️</div>
-            <div>打字</div>
-            <div class="action-desc">語音轉文字</div>
+            <div data-i18n="typing">打字</div>
+            <div class="action-desc" data-i18n="typingDesc">語音轉文字</div>
           </div>
           <div class="action-card" onclick="showPage('agents')">
             <div class="action-icon">✨</div>
-            <div>AI 代理</div>
-            <div class="action-desc">自動完成任務</div>
+            <div data-i18n="aiAgent">AI 代理</div>
+            <div class="action-desc" data-i18n="aiAgentDesc">自動完成任務</div>
           </div>
         </div>
       </section>
       <section id="page-agents" class="page">
-        <h2>AI 代理</h2>
-        <p class="subtitle">說出指令即可自動執行</p>
+        <h2 data-i18n="aiAgent">AI 代理</h2>
+        <p class="subtitle" data-i18n="agentsSubtitle">說出指令即可自動執行</p>
         <div class="agent-card">
           <div class="agent-header">
-            <div><strong>每日郵件摘要</strong><div class="agent-desc">整理收件匣重點</div></div>
+            <div><strong data-i18n="dailyEmail">每日郵件摘要</strong><div class="agent-desc" data-i18n="dailyEmailDesc">整理收件匣重點</div></div>
             <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
           </div>
         </div>
         <div class="agent-card">
           <div class="agent-header">
-            <div><strong>自動報告</strong><div class="agent-desc">生成報告</div></div>
+            <div><strong data-i18n="autoReport">自動報告</strong><div class="agent-desc" data-i18n="autoReportDesc">生成報告</div></div>
             <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
           </div>
         </div>
       </section>
       <section id="page-settings" class="page">
-        <h2>功能設定</h2>
+        <h2 data-i18n="settings">功能設定</h2>
         <div class="feature-item" style="flex-direction: column; align-items: flex-start; gap: 10px;">
-          <strong>語音辨識語言</strong>
+          <strong data-i18n="speechLang">語音辨識語言</strong>
           <select id="langSelect" onchange="changeLanguage(this.value)" style="width: 100%; padding: 10px; border-radius: 8px; background: #1e1e2a; color: white; border: 1px solid #2a2a3a;">
             <option value="zh-TW">繁體中文（台灣）</option>
             <option value="zh-CN">簡體中文（中國）</option>
@@ -131,26 +131,26 @@
             <option value="af-ZA">Afrikaans</option>
             <option value="zu-ZA">isiZulu</option>
           </select>
-          <div style="font-size: 12px; color: #a0a0b0;">選擇正確語言可大幅提升辨識準確度</div>
+          <div style="font-size: 12px; color: #a0a0b0;" data-i18n="langHint">選擇正確語言可大幅提升辨識準確度</div>
         </div>
         <div class="feature-item">
-          <div><strong>語音打字</strong></div>
+          <div><strong data-i18n="voiceTyping">語音打字</strong></div>
           <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
         </div>
         <div class="feature-item">
-          <div><strong>系統控制</strong></div>
+          <div><strong data-i18n="systemControl">系統控制</strong></div>
           <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
         </div>
         <div class="feature-item">
-          <div><strong>AI 代理</strong></div>
+          <div><strong data-i18n="aiAgent">AI 代理</strong></div>
           <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
         </div>
       </section>
     </main>
     <nav class="bottom-nav">
-      <button class="nav-btn active" onclick="showPage('home')">🏠 首頁</button>
-      <button class="nav-btn" onclick="showPage('agents')">✨ 代理</button>
-      <button class="nav-btn" onclick="showPage('settings')">⚙️ 設定</button>
+      <button class="nav-btn active" onclick="showPage('home')" data-i18n="home">🏠 首頁</button>
+      <button class="nav-btn" onclick="showPage('agents')" data-i18n="agents">✨ 代理</button>
+      <button class="nav-btn" onclick="showPage('settings')" data-i18n="settings">⚙️ 設定</button>
     </nav>
   </div>
   <script src="app.js"></script>

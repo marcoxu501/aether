@@ -1,0 +1,22 @@
+{
+  "name": "Aether 智能語音控制",
+  "short_name": "Aether",
+  "description": "透過藍牙與語音控制所有裝置，並驅動 AI 代理自動完成工作",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#0a0a0f",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

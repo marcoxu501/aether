@@ -3,6 +3,157 @@ let recognition = null;
 let currentTranscript = "";
 let currentLang = localStorage.getItem('aether-lang') || 'zh-TW';
 
+const translations = {
+  'zh-TW': {
+    connected: '藍牙已連接',
+    tapToSpeak: '點擊開始說話',
+    email: 'Email',
+    emailDesc: '語音撰寫郵件',
+    typing: '打字',
+    typingDesc: '語音轉文字',
+    aiAgent: 'AI 代理',
+    aiAgentDesc: '自動完成任務',
+    agentsSubtitle: '說出指令即可自動執行',
+    dailyEmail: '每日郵件摘要',
+    dailyEmailDesc: '整理收件匣重點',
+    autoReport: '自動報告',
+    autoReportDesc: '生成報告',
+    settings: '功能設定',
+    speechLang: '語音辨識語言',
+    langHint: '選擇正確語言可大幅提升辨識準確度',
+    voiceTyping: '語音打字',
+    systemControl: '系統控制',
+    home: '🏠 首頁',
+    agents: '✨ 代理'
+  },
+  'zh-CN': {
+    connected: '蓝牙已连接',
+    tapToSpeak: '点击开始说话',
+    email: 'Email',
+    emailDesc: '语音撰写邮件',
+    typing: '打字',
+    typingDesc: '语音转文字',
+    aiAgent: 'AI 代理',
+    aiAgentDesc: '自动完成任务',
+    agentsSubtitle: '说出指令即可自动执行',
+    dailyEmail: '每日邮件摘要',
+    dailyEmailDesc: '整理收件箱重点',
+    autoReport: '自动报告',
+    autoReportDesc: '生成报告',
+    settings: '功能设置',
+    speechLang: '语音识别语言',
+    langHint: '选择正确语言可大幅提升识别准确度',
+    voiceTyping: '语音打字',
+    systemControl: '系统控制',
+    home: '🏠 首页',
+    agents: '✨ 代理'
+  },
+  'en-US': {
+    connected: 'Bluetooth Connected',
+    tapToSpeak: 'Tap to speak',
+    email: 'Email',
+    emailDesc: 'Voice compose email',
+    typing: 'Typing',
+    typingDesc: 'Voice to text',
+    aiAgent: 'AI Agent',
+    aiAgentDesc: 'Auto complete tasks',
+    agentsSubtitle: 'Speak a command to run automatically',
+    dailyEmail: 'Daily Email Summary',
+    dailyEmailDesc: 'Summarize inbox highlights',
+    autoReport: 'Auto Report',
+    autoReportDesc: 'Generate reports',
+    settings: 'Settings',
+    speechLang: 'Speech Recognition Language',
+    langHint: 'Choosing the correct language greatly improves accuracy',
+    voiceTyping: 'Voice Typing',
+    systemControl: 'System Control',
+    home: '🏠 Home',
+    agents: '✨ Agents'
+  },
+  'en-GB': {
+    connected: 'Bluetooth Connected',
+    tapToSpeak: 'Tap to speak',
+    email: 'Email',
+    emailDesc: 'Voice compose email',
+    typing: 'Typing',
+    typingDesc: 'Voice to text',
+    aiAgent: 'AI Agent',
+    aiAgentDesc: 'Auto complete tasks',
+    agentsSubtitle: 'Speak a command to run automatically',
+    dailyEmail: 'Daily Email Summary',
+    dailyEmailDesc: 'Summarise inbox highlights',
+    autoReport: 'Auto Report',
+    autoReportDesc: 'Generate reports',
+    settings: 'Settings',
+    speechLang: 'Speech Recognition Language',
+    langHint: 'Choosing the correct language greatly improves accuracy',
+    voiceTyping: 'Voice Typing',
+    systemControl: 'System Control',
+    home: '🏠 Home',
+    agents: '✨ Agents'
+  },
+  'ja-JP': {
+    connected: 'ブルートゥース接続済み',
+    tapToSpeak: 'タップして話す',
+    email: 'Email',
+    emailDesc: '音声でメール作成',
+    typing: '入力',
+    typingDesc: '音声から文字へ',
+    aiAgent: 'AIエージェント',
+    aiAgentDesc: '自動でタスク完了',
+    agentsSubtitle: '指令を言うだけで自動実行',
+    dailyEmail: '毎日メール要約',
+    dailyEmailDesc: '受信箱の重要点を整理',
+    autoReport: '自動レポート',
+    autoReportDesc: 'レポート生成',
+    settings: '設定',
+    speechLang: '音声認識言語',
+    langHint: '正しい言語を選ぶと認識精度が大幅に向上',
+    voiceTyping: '音声入力',
+    systemControl: 'システム制御',
+    home: '🏠 ホーム',
+    agents: '✨ エージェント'
+  },
+  'ko-KR': {
+    connected: '블루투스 연결됨',
+    tapToSpeak: '탭하여 말하기',
+    email: 'Email',
+    emailDesc: '음성으로 이메일 작성',
+    typing: '타이핑',
+    typingDesc: '음성을 텍스트로',
+    aiAgent: 'AI 에이전트',
+    aiAgentDesc: '자동으로 작업 완료',
+    agentsSubtitle: '명령을 말하면 자동 실행',
+    dailyEmail: '일일 이메일 요약',
+    dailyEmailDesc: '수신함 주요 내용 정리',
+    autoReport: '자동 보고서',
+    autoReportDesc: '보고서 생성',
+    settings: '설정',
+    speechLang: '음성 인식 언어',
+    langHint: '올바른 언어를 선택하면 인식 정확도가 크게 향상됩니다',
+    voiceTyping: '음성 타이핑',
+    systemControl: '시스템 제어',
+    home: '🏠 홈',
+    agents: '✨ 에이전트'
+  }
+};
+
+function getText(key) {
+  const t = translations[currentLang] || translations['en-US'] || translations['zh-TW'];
+  return t[key] || key;
+}
+
+function updateUI() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    el.textContent = getText(key);
+  });
+  const voiceStatus = document.getElementById('voiceStatus');
+  if (voiceStatus && !isListening) {
+    voiceStatus.textContent = getText('tapToSpeak');
+  }
+}
+
 function initSpeech() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SpeechRecognition) {
@@ -38,7 +189,7 @@ function initSpeech() {
   recognition.onend = () => {
     isListening = false;
     document.getElementById('micBtn').classList.remove('listening');
-    document.getElementById('voiceStatus').textContent = "點擊開始說話";
+    document.getElementById('voiceStatus').textContent = getText('tapToSpeak');
     if (currentTranscript) {
       processVoiceCommand(currentTranscript);
     }
@@ -58,12 +209,13 @@ function changeLanguage(lang) {
   if (recognition) {
     recognition.lang = lang;
   }
-  showNotification(`語言已切換為：${lang}`);
+  updateUI();
+  showNotification(`Language switched to: ${lang}`);
 }
 
 function toggleListening() {
   if (!recognition) {
-    alert("請使用支援語音辨識的瀏覽器（Chrome / Edge / Safari）");
+    alert("Please use a browser that supports speech recognition (Chrome / Edge / Safari)");
     return;
   }
   if (isListening) {
@@ -159,6 +311,7 @@ function loadSettings() {
   }
   const langSelect = document.getElementById('langSelect');
   if (langSelect) langSelect.value = currentLang;
+  updateUI();
 }
 
 function showNotification(msg) {
